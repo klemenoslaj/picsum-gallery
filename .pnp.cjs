@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.0.6"],\
             ["@vitejs/plugin-react", "virtual:fda15c54813766d003855d0f446ef4ade42a938a2b1a17e37587bb1f627205255199bbe89dd3859846527076121db3fffb27e5a5fa6f622c3f5d979b8786f686#npm:2.0.1"],\
             ["autoprefixer", "virtual:fda15c54813766d003855d0f446ef4ade42a938a2b1a17e37587bb1f627205255199bbe89dd3859846527076121db3fffb27e5a5fa6f622c3f5d979b8786f686#npm:10.4.8"],\
+            ["classnames", "npm:2.3.1"],\
             ["cssnano", "virtual:fda15c54813766d003855d0f446ef4ade42a938a2b1a17e37587bb1f627205255199bbe89dd3859846527076121db3fffb27e5a5fa6f622c3f5d979b8786f686#npm:5.1.13"],\
             ["postcss", "npm:8.4.16"],\
             ["react", "npm:18.2.0"],\
@@ -1058,6 +1059,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/chownr-npm-2.0.0-638f1c9c61-c57cf9dd07.zip/node_modules/chownr/",\
           "packageDependencies": [\
             ["chownr", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["classnames", [\
+        ["npm:2.3.1", {\
+          "packageLocation": "./.yarn/cache/classnames-npm-2.3.1-f2ae0a8d3c-14db8889d5.zip/node_modules/classnames/",\
+          "packageDependencies": [\
+            ["classnames", "npm:2.3.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2573,6 +2583,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.0.6"],\
             ["@vitejs/plugin-react", "virtual:fda15c54813766d003855d0f446ef4ade42a938a2b1a17e37587bb1f627205255199bbe89dd3859846527076121db3fffb27e5a5fa6f622c3f5d979b8786f686#npm:2.0.1"],\
             ["autoprefixer", "virtual:fda15c54813766d003855d0f446ef4ade42a938a2b1a17e37587bb1f627205255199bbe89dd3859846527076121db3fffb27e5a5fa6f622c3f5d979b8786f686#npm:10.4.8"],\
+            ["classnames", "npm:2.3.1"],\
             ["cssnano", "virtual:fda15c54813766d003855d0f446ef4ade42a938a2b1a17e37587bb1f627205255199bbe89dd3859846527076121db3fffb27e5a5fa6f622c3f5d979b8786f686#npm:5.1.13"],\
             ["postcss", "npm:8.4.16"],\
             ["react", "npm:18.2.0"],\
