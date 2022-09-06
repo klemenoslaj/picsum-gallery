@@ -29,9 +29,8 @@ export function usePicturesRenderModel(columns: number, pages: readonly Pictures
       const minIndex = heights.indexOf(Math.min(...heights));
       const column = columns[minIndex];
       const picture = page.pictures[j];
-      const height = calculatePictureHeight(500, picture);
       column.push(picture);
-      heights[minIndex] += height;
+      heights[minIndex] += calculatePictureHeight(500, picture);
     }
 
     stash.current = { columns, heights, pageNumber: pages.length };

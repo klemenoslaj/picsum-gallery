@@ -1,3 +1,5 @@
+import { ImgHTMLAttributes } from 'react';
+
 import { Picture } from './Picture';
 
 export const calculatePictureHeight = (width: number, picture: Picture) => {
@@ -16,4 +18,13 @@ export function getPictureDownloadURL(picture: Picture) {
 
 export function getPicturesListURL(page: number, limit: number) {
   return `https://picsum.photos/v2/list?page=${page}&limit=${limit}`;
+}
+
+export function getPictureProps({ author, width, height, download_url }: Picture): ImgHTMLAttributes<HTMLImageElement> {
+  return {
+    width,
+    height,
+    alt: `Picture from ${author}`,
+    src: download_url,
+  };
 }

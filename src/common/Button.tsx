@@ -1,22 +1,40 @@
-import { ElementType, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import classnames from 'classnames';
 
-interface ButtonProps<T extends 'a' | 'button'> {
+import { HTMLParams } from './types';
+
+type AllowedTagname = 'a' | 'button';
+type ButtonColor = 'default' | 'blue';
+type ButtonAppearance = 'default' | 'squared';
+
+export type ButtonProps<T extends AllowedTagname> = HTMLParams<T> & {
   readonly as?: T;
-  readonly squared?: boolean;
-}
+  readonly appearance?: ButtonAppearance;
+  readonly color?: ButtonColor;
+};
 
-const staticClass = /*tw*/ 'inline-flex items-center p-2 rounded-lg bg-white text-black hover:bg-zinc-200';
+const staticClass = /*tw*/ 'inline-flex items-center p-2 rounded-lg gap-2';
 
-const Button = <T extends 'a' | 'button' = 'button'>({
-  as = 'button' as T,
+const colorClasses: Record<ButtonColor, string> = {
+  default: /*tw*/ 'bg-white text-black hover:bg-zinc-200',
+  blue: /*tw*/ 'bg-blue-200 text-black hover:bg-blue-300',
+};
+
+const appearanceClasses: Record<ButtonAppearance, string> = {
+  default: /*tw*/ 'px-4',
+  squared: /*tw*/ 'aspect-square',
+};
+
+const Button = <T extends AllowedTagname = 'button'>({
+  as,
   className,
-  squared,
+  appearance = 'default',
+  color = 'default',
   ...props
-}: ButtonProps<T> & JSX.IntrinsicElements[T]): ReactElement => {
-  const Component = as as ElementType;
-  const classname = classnames(staticClass, { /*tw*/ 'aspect-square': squared, /*tw*/ 'px-4': !squared }, className);
-  return <Component {...props} className={classname} />;
+}: ButtonProps<T>): ReactElement => {
+  const Component = as ?? 'button';
+  className = classnames(staticClass, colorClasses[color], appearanceClasses[appearance], className);
+  return <Component {...props} className={className} />;
 };
 
 export default Button;

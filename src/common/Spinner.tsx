@@ -1,14 +1,11 @@
-import { FunctionComponent } from 'react';
+import { SVGAttributes, FunctionComponent } from 'react';
 import classnames from 'classnames';
 
-interface SpinnerProps {
-  readonly className?: string;
-}
+const Spinner: FunctionComponent<SVGAttributes<SVGElement>> = ({ className, ...props }) => {
+  className = classnames(/*tw*/ 'animate-spin -ml-1 mr-3', className);
 
-const Spinner: FunctionComponent<SpinnerProps> = ({ className }) => {
-  const classname = classnames(/*tw*/ 'animate-spin -ml-1 mr-3', className);
   return (
-    <svg className={classname} fill="none" viewBox="0 0 24 24">
+    <svg {...props} fill="none" viewBox="0 0 24 24" className={className}>
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
       <path
         className="opacity-75"
