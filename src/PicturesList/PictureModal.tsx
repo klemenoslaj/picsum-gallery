@@ -74,6 +74,7 @@ export const PictureModal: FunctionComponent<PictureModal> = ({
             ref={imageRef}
             className={classNames('text-transparent', {
               /*tw*/ 'absolute top-0': loadedSrc,
+              /*tw*/ invisible: !imageBlob,
             })}
           />
         </MediaCard>
