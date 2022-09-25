@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { SlashIcon } from './icons';
 import { HTMLParams } from './types';
 
 type AllowedTagname = 'article' | 'section' | 'div';
@@ -12,6 +11,7 @@ export type MediaCardProps<T extends AllowedTagname> = HTMLParams<T> & {
   readonly loadFailed?: boolean;
   readonly title?: string;
   readonly buttons?: ReactNode;
+  readonly loading?: ReactNode;
   readonly showOverlay?: boolean;
 };
 
@@ -22,6 +22,7 @@ const MediaCard = <T extends AllowedTagname>({
   title,
   children,
   buttons,
+  loading,
   showOverlay = !!(title || buttons),
   ...props
 }: MediaCardProps<T>) => {
@@ -34,7 +35,8 @@ const MediaCard = <T extends AllowedTagname>({
 
   return (
     <Component className={articleClass} {...props}>
-      <div className={statusClass}>{loadFailed && <SlashIcon className="h-14 lg:h-20" />}</div>
+      {(loadFailed || !loading) && <div className={statusClass} />}
+      {!loadFailed && loading}
       {children}
       {showOverlay && (
         <>

@@ -1,7 +1,7 @@
-import { useRef, useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useRef, useEffect } from 'react';
 
 interface VisibilityStore {
-  readonly setIsVisible: Dispatch<SetStateAction<boolean>>;
+  readonly setIsVisible: (visible: boolean) => void;
   readonly unobserve: () => void;
 }
 
@@ -10,9 +10,8 @@ const store = new WeakMap<Element, VisibilityStore>();
 let rootObserver: IntersectionObserver | undefined;
 let amount: number = 0;
 
-const useElementOnScreen = () => {
+const useElementOnScreen = (onChange: (visible: boolean) => void) => {
   const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = (rootObserver ??= new IntersectionObserver((entries) => {
@@ -34,7 +33,7 @@ const useElementOnScreen = () => {
     }
 
     const observerApi = {
-      setIsVisible,
+      setIsVisible: onChange,
       unobserve: () => {
         if (!amount) {
           return;
@@ -56,7 +55,7 @@ const useElementOnScreen = () => {
     return observerApi.unobserve;
   }, []);
 
-  return [containerRef, isVisible] as const;
+  return [containerRef] as const;
 };
 
 export default useElementOnScreen;

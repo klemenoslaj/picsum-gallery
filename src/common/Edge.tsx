@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent } from 'react';
 
 import useElementOnScreen from '~common/useElementOnScreen';
 
@@ -13,12 +13,7 @@ export interface EdgeProps {
  * will be executed again.
  */
 const Edge: FunctionComponent<EdgeProps> = ({ onVisible }) => {
-  const [containerRef, isVisible] = useElementOnScreen();
-
-  useEffect(() => {
-    isVisible && onVisible();
-  }, [isVisible]);
-
+  const [containerRef] = useElementOnScreen(onVisible);
   return <div ref={containerRef} />;
 };
 

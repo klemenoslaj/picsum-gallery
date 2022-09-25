@@ -16,7 +16,7 @@ export const DownloadIcon = (props: SVGAttributes<SVGElement>) => (
 );
 
 export const SlashIcon = (props: SVGAttributes<SVGElement>) => (
-  <svg {...props} viewBox="0 0 24 24">
+  <svg {...props} viewBox="0 0 24 24" stroke="currentColor" fill="currentColor">
     <g data-name="Layer 2">
       <g data-name="slash">
         <rect width="24" height="24" opacity="0" />
