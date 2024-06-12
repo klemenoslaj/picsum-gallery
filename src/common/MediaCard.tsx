@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { HTMLParams } from './types';
 
-type AllowedTagname = 'article' | 'section' | 'div';
+type AllowedTagname = 'article' | 'section' | 'figure' | 'div';
 
 export type MediaCardProps<T extends AllowedTagname> = HTMLParams<T> & {
   readonly as?: T;
@@ -28,7 +28,7 @@ const MediaCard = <T extends AllowedTagname>({
 }: MediaCardProps<T>) => {
   const Component = as ?? 'div';
   const articleClass = classNames(/*tw*/ 'relative rounded-2xl overflow-hidden group', className);
-  const statusClass = classNames('absolute inset-0 bg-gray-500 flex justify-center items-center rounded-2xl', {
+  const statusClass = classNames(/*tw*/ 'absolute inset-0 flex justify-center items-center rounded-2xl', {
     /*tw*/ 'animate-pulse bg-gray-500 -z-10': !loadFailed,
     /*tw*/ 'bg-red-400': loadFailed,
   });
@@ -40,8 +40,8 @@ const MediaCard = <T extends AllowedTagname>({
       {children}
       {showOverlay && (
         <>
-          <div className="absolute inset-0 bg-neutral-700 opacity-0 transition-opacity duration-150 group-hover:opacity-50 pointer-events-none rounded-2xl"></div>
-          <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 lg:gap-4 sm:opacity-0 transition-opacity duration-150 group-hover:opacity-100 pointer-events-none">
+          <div className="absolute inset-0 bg-neutral-700 opacity-0 transition-opacity duration-150 group-focus-within:opacity-50 group-hover:opacity-50 pointer-events-none rounded-2xl"></div>
+          <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 lg:gap-4 sm:opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100 pointer-events-none">
             <span className="overflow-hidden text-white invisible sm:visible pointer-events-auto">{title}</span>
             <span className="flex-1"></span>
             <div className="pointer-events-auto contents">{buttons}</div>

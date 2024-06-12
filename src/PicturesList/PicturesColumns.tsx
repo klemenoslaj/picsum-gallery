@@ -1,28 +1,41 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 import classNames from 'classnames';
 
 import { Picture, PicturesData } from './Picture';
 import { PictureCard } from './PictureCard';
 import { usePicturesRenderModel } from './usePicturesRenderModel';
+import { useCallbackRef } from '~common/useCallbackRef';
 
 const LoadingCard = <div className="flex-1 rounded-t-2xl animate-pulse bg-gray-500"></div>;
 
-interface PicturesProps {
+export interface PicturesProps {
   readonly columns: number;
   readonly className: string;
   readonly hasNextPage: boolean | undefined;
   readonly pictures: readonly PicturesData[] | undefined;
-  readonly onClick: (data: { picture: Picture; loadedSrc: string }) => void;
+  readonly onOpen: (data: { picture: Picture; loadedSrc: string }) => void;
 }
 
 export const PicturesColumns: FunctionComponent<PicturesProps> = ({
   columns,
   pictures,
   hasNextPage,
-  onClick,
+  onOpen,
   className,
 }) => {
   const render = usePicturesRenderModel(columns, pictures);
+  const onClickRef = useCallbackRef(onOpen);
+
+  const onOpenStable = useCallback(
+    (
+      _event: React.MouseEvent<HTMLImageElement> | React.KeyboardEvent<HTMLAnchorElement>,
+      picture: Picture,
+      currentSrc: string,
+    ) => {
+      onClickRef.current!({ picture, loadedSrc: currentSrc });
+    },
+    [onClickRef],
+  );
 
   return (
     <div
@@ -37,7 +50,8 @@ export const PicturesColumns: FunctionComponent<PicturesProps> = ({
               key={picture.id}
               picture={picture}
               lazy={render.pageNumber > 2}
-              onClick={(event) => onClick({ picture, loadedSrc: event.currentTarget.currentSrc })}
+              onClick={onOpenStable}
+              onEnter={onOpenStable}
             />
           ))}
           {hasNextPage && LoadingCard}
