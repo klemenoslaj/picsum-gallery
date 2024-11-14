@@ -23,9 +23,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Build
+        id: build
         run: |
           yarn install
           yarn build
+
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: dist/picsum-gallery
 
   deploy:
     needs: build

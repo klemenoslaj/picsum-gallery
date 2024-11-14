@@ -6,6 +6,10 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   cacheDir: '.vite',
+  base: '/picsum-gallery',
+  build: {
+    outDir: './dist/picsum-gallery',
+  },
   server: {
     proxy: {
       '/download': {
