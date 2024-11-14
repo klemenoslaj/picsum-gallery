@@ -5,6 +5,7 @@ import MediaCard from '~common/MediaCard';
 
 import { Picture } from './Picture';
 import { getPictureDownloadURL, getPictureProps, getPictureURL } from './pictureUtils';
+import { flushSync } from 'react-dom';
 
 export interface PictureCardProps {
   readonly picture: Picture;
@@ -20,7 +21,8 @@ const imageWidths = [150, 300, 400, 500] as const;
 export const PictureCard: FunctionComponent<PictureCardProps> = memo(
   ({ picture, className, lazy, onClick, onEnter }) => {
     const [loadFailed, setLoadFailed] = useState(false);
-    const imageSrc = useRef<HTMLImageElement>(null);
+    const imageRef = useRef<HTMLImageElement>(null);
+    const cardRef = useRef<HTMLElement>(null);
     const { srcSet, pictureURL, downloadURL } = useMemo(
       () => ({
         srcSet: imageWidths
@@ -34,6 +36,7 @@ export const PictureCard: FunctionComponent<PictureCardProps> = memo(
 
     return (
       <MediaCard
+        ref={cardRef}
         as="figure"
         className={className}
         loadFailed={loadFailed}
@@ -51,13 +54,13 @@ export const PictureCard: FunctionComponent<PictureCardProps> = memo(
           onKeyDown={(event) => {
             if (onEnter && event.key === 'Enter') {
               event.preventDefault();
-              onEnter(event, picture, imageSrc.current!.currentSrc);
+              onEnter(event, picture, imageRef.current!.currentSrc);
             }
           }}
         >
           <img
             {...getPictureProps(picture)}
-            ref={imageSrc}
+            ref={imageRef}
             src={pictureURL}
             srcSet={srcSet}
             sizes={sizes}
@@ -67,7 +70,23 @@ export const PictureCard: FunctionComponent<PictureCardProps> = memo(
             onClick={(event) => {
               if (onClick) {
                 event.preventDefault();
-                onClick(event, picture, imageSrc.current!.currentSrc);
+                const stufff = cardRef.current?.querySelector('.stufff') as HTMLElement;
+
+                console.log(stufff)
+
+                stufff.style.viewTransitionName = 'stufff';
+                cardRef.current!.style.viewTransitionName = 'full-embed';
+                const transition = document.transition = document.startViewTransition(() => {
+                  flushSync(() => {
+                    stufff.style.viewTransitionName = '';
+                    cardRef.current!.style.viewTransitionName = '';
+                    onClick(event, picture, imageRef.current!.currentSrc);
+                  })
+                });
+
+                transition.finished.finally(() => {
+                  document.transition = null;
+                })
               }
             }}
           />

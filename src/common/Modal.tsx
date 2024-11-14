@@ -47,7 +47,7 @@ const Modal: FunctionComponent<PropsWithChildren<ModalProps>> = ({ open, childre
     <dialog
       {...props}
       ref={dialogRef}
-      className={classNames('flex flex-col justify-end p-0 border-white backdrop:bg-black/90', className)}
+      className={classNames('flex flex-col justify-end p-0 border-white border-transparent bg-transparent rounded-2xl backdrop:bg-black/90', className)}
       onClose={context.closeModal}
       onClick={context.closeModal}
     >

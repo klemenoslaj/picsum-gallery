@@ -6,12 +6,15 @@ const useImageBlob = (url: string | undefined) => {
   return useQuery(
     [url],
     ({ signal }) =>
-      url
+      {
+        console.log('load')
+        return url
         ? fetch(url, { signal })
             .then((response) => (response.ok ? response : Promise.reject(`Failed to fetch image from: ${url}`)))
             .then((response) => response.blob())
             .then((blob) => URL.createObjectURL(blob))
-        : '',
+        : ''
+      },
     { staleTime: Infinity, enabled: !!url },
   );
 };

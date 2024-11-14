@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ForwardedRef, forwardRef, ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { HTMLParams } from './types';
@@ -15,7 +15,7 @@ export type MediaCardProps<T extends AllowedTagname> = HTMLParams<T> & {
   readonly showOverlay?: boolean;
 };
 
-const MediaCard = <T extends AllowedTagname>({
+const MediaCard = forwardRef(<T extends AllowedTagname>({
   as,
   className,
   loadFailed,
@@ -25,7 +25,7 @@ const MediaCard = <T extends AllowedTagname>({
   loading,
   showOverlay = !!(title || buttons),
   ...props
-}: MediaCardProps<T>) => {
+}: MediaCardProps<T>, ref: ForwardedRef<HTMLElement>) => {
   const Component = as ?? 'div';
   const articleClass = classNames(/*tw*/ 'relative rounded-2xl overflow-hidden group', className);
   const statusClass = classNames(/*tw*/ 'absolute inset-0 flex justify-center items-center rounded-2xl', {
@@ -34,7 +34,7 @@ const MediaCard = <T extends AllowedTagname>({
   });
 
   return (
-    <Component className={articleClass} {...props}>
+    <Component className={articleClass} {...props} ref={ref}>
       {(loadFailed || !loading) && <div className={statusClass} />}
       {!loadFailed && loading}
       {children}
@@ -42,7 +42,7 @@ const MediaCard = <T extends AllowedTagname>({
         <>
           <div className="absolute inset-0 bg-neutral-700 opacity-0 transition-opacity duration-150 group-focus-within:opacity-50 group-hover:opacity-50 pointer-events-none rounded-2xl"></div>
           <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 lg:gap-4 sm:opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100 pointer-events-none">
-            <span className="overflow-hidden text-white invisible sm:visible pointer-events-auto">{title}</span>
+            <span className="overflow-hidden text-white invisible sm:visible pointer-events-auto stufff">{title}</span>
             <span className="flex-1"></span>
             <div className="pointer-events-auto contents">{buttons}</div>
           </div>
@@ -50,6 +50,6 @@ const MediaCard = <T extends AllowedTagname>({
       )}
     </Component>
   );
-};
+});
 
-export default MediaCard;
+export default MediaCard as <T extends AllowedTagname>(props: MediaCardProps<T>) => JSX.Element;

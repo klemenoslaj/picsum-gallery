@@ -1,4 +1,4 @@
-import { FunctionComponent, memo, useRef } from 'react';
+import { FunctionComponent, memo, useEffect, useRef } from 'react';
 import { DownloadIcon } from '~common/icons';
 import Modal, { CloseModalButton, ModalProps } from '~common/Modal';
 import Button from '~common/Button';
@@ -30,6 +30,31 @@ export const PictureModal: FunctionComponent<PictureModal> = memo(
         }
       : style;
 
+      useEffect(() => {
+
+
+
+
+
+        if (!loadedSrc) {
+          return;
+        }
+
+
+        if (!document.transition) {
+          return;
+        }
+        const stuff = imageRef.current?.closest('dialog')?.querySelector('.stufff') as HTMLElement | undefined;
+
+        if (stuff) {
+          stuff.style.viewTransitionName = 'stufff';
+        }
+
+        document.transition.finished.then(() => {
+          imageRef.current?.removeAttribute('hidden');
+        });
+      }, [loadedSrc]);
+
     return (
       <Modal
         {...props}
@@ -42,6 +67,9 @@ export const PictureModal: FunctionComponent<PictureModal> = memo(
             className="mx-auto"
             title={picture.author}
             loadFailed={!loadedSrc && isError}
+            style={{
+              viewTransitionName: 'full-embed'
+            }}
             loading={
               loadedSrc && <img {...pictureProps} src={loadedSrc} className="text-transparent blur-sm" aria-hidden />
             }
@@ -64,8 +92,9 @@ export const PictureModal: FunctionComponent<PictureModal> = memo(
             <img
               key={`${online}`}
               {...pictureProps}
-              src={imageBlob!}
+              src={imageBlob}
               ref={imageRef}
+              hidden
               className={classNames('text-transparent', {
                 /*tw*/ 'absolute top-0': loadedSrc,
                 /*tw*/ invisible: !imageBlob,
